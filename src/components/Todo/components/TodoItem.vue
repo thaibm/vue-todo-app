@@ -8,7 +8,11 @@
         type="checkbox"
         @change="toggleTodo(todo)"
       />
-      <label @dblclick="editing = true" v-text="todo.text" :for="`todo-item-${todo.id}`" />
+      <label
+        @dblclick="editing = true"
+        v-text="todo.text"
+        :for="`todo-item-${todo.id}`"
+      />
       <button class="destroy" @click="deleteTodo(todo)" />
     </div>
     <input
