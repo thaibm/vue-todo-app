@@ -61,25 +61,13 @@
 import { Vue, Component } from "vue-property-decorator";
 import TodoItem from "./components/TodoItem.vue";
 import { ETodoType, ITodo } from "@/types/todo";
+import { TodoModule } from "@/store/modules/todo";
 
-const STORAGE_KEY = "todos";
 const filters: { [key: string]: Function } = {
   all: (todos: ITodo[]) => todos,
   active: (todos: ITodo[]) => todos.filter(todo => !todo.done),
   completed: (todos: ITodo[]) => todos.filter(todo => todo.done)
 };
-
-const defalutList: ITodo[] = [
-  { id: 0, text: "The Vue Instance", done: true },
-  { id: 1, text: "Vue Directives", done: true },
-  { id: 2, text: "Data-binding", done: true },
-  { id: 3, text: "Events Handling", done: false },
-  { id: 4, text: "Components", done: false },
-  { id: 5, text: "Vue-cli", done: false },
-  { id: 6, text: "Vue-router", done: false },
-  { id: 7, text: "Vuex", done: false },
-  { id: 8, text: "Axios", done: false }
-];
 
 @Component({
   name: "Todo",
@@ -95,8 +83,9 @@ const defalutList: ITodo[] = [
 export default class Todo extends Vue {
   private ETodoType = ETodoType;
   private visibility = ETodoType.All;
-  private todos = this.getTodoListLocalStorage() || defalutList;
+  private todos = TodoModule.todos;
 
+  // Compute function
   get allChecked() {
     return this.todos.every((todo: ITodo) => {
       return todo.done;
@@ -120,12 +109,7 @@ export default class Todo extends Vue {
   }
 
   private setLocalStorage() {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(this.todos));
-  }
-
-  private getTodoListLocalStorage() {
-    const todoString = window.localStorage.getItem(STORAGE_KEY);
-    return todoString ? JSON.parse(todoString) : null;
+    TodoModule.saveTodos(this.todos);
   }
 
   private addTodo(e: KeyboardEvent) {

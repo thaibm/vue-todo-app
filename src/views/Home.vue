@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
+    <!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
     <todo></todo>
   </div>
 </template>
@@ -19,3 +19,8 @@ import Todo from "@/components/Todo/index.vue";
 })
 export default class Home extends Vue {}
 </script>
+<style lang="scss" scoped>
+.home {
+  padding-bottom: 4rem;
+}
+</style>
